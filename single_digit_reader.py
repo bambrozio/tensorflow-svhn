@@ -3,6 +3,9 @@ import os
 import PIL.Image as Image
 import numpy as np
 import tensorflow as tf
+#import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 
 from svhn_model import classification_head

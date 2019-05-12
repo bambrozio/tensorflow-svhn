@@ -16,7 +16,7 @@ from datetime import datetime
 # Run Options
 BATCH_SIZE = 32
 NUM_EPOCHS = 128
-TENSORBOARD_SUMMARIES_DIR = '/tmp/svhn_regression_logs'
+TENSORBOARD_SUMMARIES_DIR = 'logs/svhn_regression_logs'
 
 # Image Settings
 IMG_HEIGHT = 64
@@ -61,27 +61,27 @@ def train_regressor(train_data, train_labels, valid_data, valid_labels,
                                                    IMG_WIDTH, NUM_CHANNELS))
 
     with tf.name_scope('image'):
-        tf.image_summary('input', images_placeholder, 10)
+        tf.summary.image('input', images_placeholder, 10)
 
     labels_placeholder = tf.placeholder(tf.int32,
                                         shape=(BATCH_SIZE, LABELS_LEN))
 
     [logits_1, logits_2, logits_3, logits_4, logits_5] = regression_head(images_placeholder, True)
 
-    loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits_1, labels_placeholder[:, 1])) +\
-        tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits_2, labels_placeholder[:, 2])) +\
-        tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits_3, labels_placeholder[:, 3])) +\
-        tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits_4, labels_placeholder[:, 4])) +\
-        tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits_5, labels_placeholder[:, 5]))
+    loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits=logits_1, labels=labels_placeholder[:, 1])) +\
+        tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits=logits_2, labels=labels_placeholder[:, 2])) +\
+        tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits=logits_3, labels=labels_placeholder[:, 3])) +\
+        tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits=logits_4, labels=labels_placeholder[:, 4])) +\
+        tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits=logits_5, labels=labels_placeholder[:, 5]))
 
     learning_rate = tf.train.exponential_decay(LEARN_RATE, global_step*BATCH_SIZE, train_size, DECAY_RATE)
-    tf.scalar_summary('learning_rate', learning_rate)
+    tf.summary.scalar('learning_rate', learning_rate)
 
     # Optimizer: set up a variable that's incremented once per batch
     with tf.name_scope('train'):
         optimizer = tf.train.AdagradOptimizer(learning_rate).minimize(loss, global_step=global_step)
 
-    prediction = tf.pack([tf.nn.softmax(regression_head(images_placeholder)[0]),
+    prediction = tf.stack([tf.nn.softmax(regression_head(images_placeholder)[0]),
                                 tf.nn.softmax(regression_head(images_placeholder)[1]),
                                 tf.nn.softmax(regression_head(images_placeholder)[2]),
                                 tf.nn.softmax(regression_head(images_placeholder)[3]),
@@ -107,7 +107,7 @@ def train_regressor(train_data, train_labels, valid_data, valid_labels,
 
         # Add histograms for trainable variables.
         for var in tf.trainable_variables():
-            tf.histogram_summary(var.op.name, var)
+            tf.summary.histogram(var.op.name, var)
 
         with tf.name_scope('accuracy'):
             with tf.name_scope('correct_prediction'):
@@ -116,7 +116,7 @@ def train_regressor(train_data, train_labels, valid_data, valid_labels,
                 correct_prediction = tf.equal(tf.argmax(best, 1), lb)
             with tf.name_scope('accuracy'):
                 accuracy = tf.reduce_sum(tf.cast(correct_prediction, tf.float32)) / prediction.get_shape().as_list()[1] / prediction.get_shape().as_list()[0]
-            tf.scalar_summary('accuracy', accuracy)
+            tf.summary.scalar('accuracy', accuracy)
 
         # Prepare vairables for the tensorboard
         merged = tf.merge_all_summaries()

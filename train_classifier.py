@@ -3,7 +3,6 @@ from __future__ import division
 from __future__ import print_function
 
 import time
-import numpy as np
 import sys
 import os
 import tensorflow as tf
@@ -13,7 +12,7 @@ from svhn_model import classification_head
 from datetime import datetime
 
 
-TENSORBOARD_SUMMARIES_DIR = '/tmp/svhn_classifier_logs'
+TENSORBOARD_SUMMARIES_DIR = 'logs/svhn_classifier_logs'
 NUM_LABELS = 10
 IMG_ROWS = 32
 IMG_COLS = 32
@@ -61,7 +60,7 @@ def train_classification(train_data, train_labels,
         labels_placeholder = tf.placeholder(tf.float32, shape=[BATCH_SIZE, NUM_LABELS], name="Labels_Input")
 
     with tf.name_scope('image'):
-        tf.image_summary('train_input', images_placeholder, 10)
+        tf.summary.image('train_input', images_placeholder, 10)
 
 
 
@@ -69,15 +68,15 @@ def train_classification(train_data, train_labels,
     logits = classification_head(images_placeholder, train=True)
     with tf.name_scope('loss'):
         loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(
-                          logits, labels_placeholder))
-        tf.scalar_summary('loss', loss)
+                          logits=logits, labels=labels_placeholder))
+        tf.summary.scalar('loss', loss)
     learning_rate = tf.train.exponential_decay(LEARN_RATE,
                                                global_step*BATCH_SIZE,
                                                train_size,
                                                DECAY_RATE,
                                                staircase=STAIRCASE)
 
-    tf.scalar_summary('learning_rate', learning_rate)
+    tf.summary.scalar('learning_rate', learning_rate)
     '''Optimizer: set up a variable that's incremented
       once per batch and controls the learning rate decay.'''
 
@@ -106,7 +105,7 @@ def train_classification(train_data, train_labels,
 
         # Add histograms for trainable variables.
         for var in tf.trainable_variables():
-            tf.histogram_summary(var.op.name, var)
+            tf.summary.histogram(var.op.name, var)
 
         # Add accuracy to tesnosrboard
         with tf.name_scope('accuracy'):
@@ -115,13 +114,19 @@ def train_classification(train_data, train_labels,
                                               tf.argmax(labels_placeholder, 1))
             with tf.name_scope('accuracy'):
                 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
-            tf.scalar_summary('accuracy', accuracy)
+            tf.summary.scalar('accuracy', accuracy)
 
         # Prepare vairables for the tensorboard
-        merged = tf.merge_all_summaries()
+        merged = tf.summary.merge_all()
 
-        train_writer = tf.train.SummaryWriter(TENSORBOARD_SUMMARIES_DIR + '/train', sess.graph)
-        valid_writer = tf.train.SummaryWriter(TENSORBOARD_SUMMARIES_DIR + '/validation')
+        saver = tf.train.Saver()
+        saver.save(sess, save_path=TENSORBOARD_SUMMARIES_DIR + '/train', global_step=global_step)
+        train_writer = tf.summary.FileWriter('logs/board_train_writer')  # create writer
+        train_writer.add_graph(sess.graph)
+
+        saver.save(sess, save_path=TENSORBOARD_SUMMARIES_DIR + '/validation', global_step=global_step)
+        valid_writer = tf.summary.FileWriter('logs/board_valid_writer')  # create writer
+        valid_writer.add_graph(sess.graph)
 
         run_options = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
         run_metadata = tf.RunMetadata()
@@ -187,7 +192,7 @@ def main(saved_weights_path):
     print("Test", test_data.shape)
 
     train_size = train_labels.shape[0]
-    saved_weights_path = None
+    #saved_weights_path = None
     train_classification(train_data, train_labels,
                          valid_data, valid_labels,
                          test_data, test_labels, train_size,

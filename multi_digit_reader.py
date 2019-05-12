@@ -4,6 +4,9 @@ import numpy as np
 import tensorflow as tf
 import PIL.Image as Image
 import matplotlib.pyplot as plt
+#import matplotlib
+#matplotlib.use('TkAgg')
+#import matplotlib.pyplot as plt
 
 from svhn_model import regression_head
 from svhn_data import load_svhn_data
@@ -35,7 +38,7 @@ def detect(img_path, saved_model_weights):
     X = tf.placeholder(tf.float32, shape=(1, 64, 64, 3))
     [logits_1, logits_2, logits_3, logits_4, logits_5] = regression_head(X)
 
-    predict = tf.pack([tf.nn.softmax(logits_1),
+    predict = tf.stack([tf.nn.softmax(logits_1),
                       tf.nn.softmax(logits_2),
                       tf.nn.softmax(logits_3),
                       tf.nn.softmax(logits_4),
@@ -59,10 +62,11 @@ def detect(img_path, saved_model_weights):
 
 if __name__ == "__main__":
     img_path = None
-    if len(sys.argv) > 1:
-        print("Reading Image file:", sys.argv[1])
-        if os.path.isfile(sys.argv[1]):
-            img_path = sys.argv[1]
+    if True: #len(sys.argv) > 1:
+        #print("Reading Image file:", sys.argv[1])
+        #if os.path.isfile(sys.argv[1]):
+        if os.path.isfile("/Users/bambrozi/Downloads/tmp/cropped/test123.png"):
+            img_path = "/Users/bambrozi/Downloads/tmp/cropped/test123.png"
         else:
             raise EnvironmentError("Image file cannot be opened.")
     else:
