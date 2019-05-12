@@ -1,5 +1,5 @@
 ```
-/Users/bambrozi/workspace/github.com/bambrozio/tensorflow-svhn/env/bin/python /Applications/PyCharm.app/Contents/helpers/pydev/pydevconsole.py --mode=client --port=58528
+/Users/bambrozi/workspace/github.com/bambrozio/tensorflow-svhn/env/bin/python /Applications/PyCharm.app/Contents/helpers/pydev/pydevconsole.py --mode=client --port=58574
 /Users/bambrozi/workspace/github.com/bambrozio/tensorflow-svhn/env/lib/python2.7/site-packages/IPython/core/interactiveshell.py:726: UserWarning: Attempting to work in a virtualenv. If you encounter problems, please install IPython inside the virtualenv.
   warn("Attempting to work in a virtualenv. If you encounter problems, please "
 import sys; print('Python %s on %s' % (sys.version, sys.platform))
@@ -35,11 +35,31 @@ Not using dropout
 WARNING:tensorflow:From /Users/bambrozi/workspace/github.com/bambrozio/tensorflow-svhn/env/lib/python2.7/site-packages/tensorflow/python/util/tf_should_use.py:193: initialize_all_variables (from tensorflow.python.ops.variables) is deprecated and will be removed after 2017-03-02.
 Instructions for updating:
 Use `tf.global_variables_initializer` instead.
-2019-05-12 22:28:52.172558: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2019-05-12 22:35:50.348072: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
 Validation Accuracy: 0.11%
 Training Accuracy: 0.13%
 Adding run metadata for 0
-2019-05-12 22:28:53.707826: step 0, loss = 2.29  learning rate = 0.075000  (335.3 examples/sec; 0.76 sec/batch)
-Mini-Batch Accuracy: 0.09%
+2019-05-12 22:35:51.796044: step 0, loss = 2.28  learning rate = 0.075000  (352.2 examples/sec; 0.73 sec/batch)
+Mini-Batch Accuracy: 0.05%
 (...)
+Mini-Batch Accuracy: 0.95%
+2019-05-12 22:45:06.387072: step 1900, loss = 0.30  learning rate = 0.052375  (8.9 examples/sec; 28.79 sec/batch)
+Mini-Batch Accuracy: 0.93%
+Validation Accuracy: 0.90%
+Training Accuracy: 0.96%
+Adding run metadata for 2000
+2019-05-12 22:45:35.745231: step 2000, loss = 0.16  learning rate = 0.052375  (8.9 examples/sec; 28.76 sec/batch)
+Mini-Batch Accuracy: 0.95%
+2019-05-12 22:46:04.535938: step 2100, loss = 0.22  learning rate = 0.049757  (8.9 examples/sec; 28.79 sec/batch)
+Mini-Batch Accuracy: 0.95%
+2019-05-12 22:46:33.176015: step 2200, loss = 0.24  learning rate = 0.049757  (8.9 examples/sec; 28.64 sec/batch)
+Mini-Batch Accuracy: 0.93%
+2019-05-12 22:47:01.718892: step 2300, loss = 0.34  learning rate = 0.049757  (9.0 examples/sec; 28.54 sec/batch)
+Mini-Batch Accuracy: 0.93%
+2019-05-12 22:47:30.538166: step 2400, loss = 0.37  learning rate = 0.047269  (8.9 examples/sec; 28.82 sec/batch)
+Mini-Batch Accuracy: 0.89%
+2019-05-12 22:47:59.338596: step 2500, loss = 0.25  learning rate = 0.047269  (8.9 examples/sec; 28.80 sec/batch)
+Mini-Batch Accuracy: 0.93%
+Model saved in file: classifier.ckpt
+Test Accuracy: 0.91406%
 ```
