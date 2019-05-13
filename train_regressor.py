@@ -15,7 +15,7 @@ from datetime import datetime
 
 # Run Options
 BATCH_SIZE = 32
-NUM_EPOCHS = 128
+NUM_EPOCHS = 10 #128
 TENSORBOARD_SUMMARIES_DIR = 'logs/svhn_regression_logs'
 
 # Image Settings
@@ -119,12 +119,33 @@ def train_regressor(train_data, train_labels, valid_data, valid_labels,
             tf.summary.scalar('accuracy', accuracy)
 
         # Prepare vairables for the tensorboard
-        merged = tf.merge_all_summaries()
-        train_writer = tf.train.SummaryWriter(TENSORBOARD_SUMMARIES_DIR + '/train', sess.graph)
-        valid_writer = tf.train.SummaryWriter(TENSORBOARD_SUMMARIES_DIR + '/validation')
+        merged = tf.summary.merge_all()
+
+        # train_writer = tf.train.SummaryWriter(TENSORBOARD_SUMMARIES_DIR + '/train', sess.graph)
+        train_writer = tf.summary.FileWriter('logs/board_reg_train_writer')  # create writer
+        train_writer.add_graph(sess.graph)
+
+        # valid_writer = tf.train.SummaryWriter(TENSORBOARD_SUMMARIES_DIR + '/validation')
+        valid_writer = tf.summary.FileWriter('logs/board_reg_valid_writer')  # create writer
+        valid_writer.add_graph(sess.graph)
 
         run_options = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
         run_metadata = tf.RunMetadata()
+
+        ###
+
+        saver = tf.train.Saver()
+        saver.save(sess, save_path=TENSORBOARD_SUMMARIES_DIR + '/train', global_step=global_step)
+        train_writer = tf.summary.FileWriter('logs/board_train_writer')  # create writer
+        train_writer.add_graph(sess.graph)
+
+        saver.save(sess, save_path=TENSORBOARD_SUMMARIES_DIR + '/validation', global_step=global_step)
+        valid_writer = tf.summary.FileWriter('logs/board_valid_writer')  # create writer
+        valid_writer.add_graph(sess.graph)
+
+        run_options = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
+        run_metadata = tf.RunMetadata()
+        ###
 
         # Loop through training steps.
         for step in xrange(int(NUM_EPOCHS * train_size) // BATCH_SIZE):
