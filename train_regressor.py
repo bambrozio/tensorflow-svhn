@@ -15,7 +15,7 @@ from datetime import datetime
 
 # Run Options
 BATCH_SIZE = 32
-NUM_EPOCHS = 10 #128
+NUM_EPOCHS = 128
 TENSORBOARD_SUMMARIES_DIR = 'logs/svhn_regression_logs'
 
 # Image Settings

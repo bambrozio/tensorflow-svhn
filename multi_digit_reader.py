@@ -71,20 +71,20 @@ def detect(img_path, saved_model_weights):
         end_time = time.time()
         print "Best Prediction", pred, "made in", end_time - start_time
 
-
 if __name__ == "__main__":
-    img_path = "/Users/bambrozi/Downloads/tmp/12517.png"
-    # if True: #len(sys.argv) > 1:
-    #     #print("Reading Image file:", sys.argv[1])
-    #     #if os.path.isfile(sys.argv[1]):
-    #     if os.path.isfile("/Users/bambrozi/Downloads/tmp/12517.png"):
-    #         img_path = "/Users/bambrozi/Downloads/tmp/12517.png"
-    #     else:
-    #         raise EnvironmentError("Image file cannot be opened.")
-    # else:
-    #     raise EnvironmentError("You must pass an image file to process")
+    img_path = None
+    if len(sys.argv) > 1:
+        print("Reading Image file:", sys.argv[1])
+        if os.path.isfile(sys.argv[1]):
+            img_path = sys.argv[1]
+        else:
+            raise EnvironmentError("Cannot open image file.")
+    else:
+        raise EnvironmentError("You must pass an image file to process")
+
     if os.path.isfile(WEIGHTS_FILE):
         saved_model_weights = WEIGHTS_FILE
     else:
-        raise IOError("Cannot find checkpoint file. Please run train_regressor.py")
+        raise IOError("Cannot find checkpoint file. Please run train_classifier.py")
+
     detect(img_path, saved_model_weights)

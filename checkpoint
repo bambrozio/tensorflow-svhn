@@ -1,4 +1,0 @@
-model_checkpoint_path: "regression.ckpt"
-all_model_checkpoint_paths: "logs/svhn_regression_logs/train-0"
-all_model_checkpoint_paths: "logs/svhn_regression_logs/validation-0"
-all_model_checkpoint_paths: "regression.ckpt"
