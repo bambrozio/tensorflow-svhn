@@ -2,16 +2,18 @@ import sys
 import os
 import numpy as np
 import tensorflow as tf
-import PIL.Image as Image
+from PIL import Image
 import matplotlib.pyplot as plt
-
+#import matplotlib
+#matplotlib.use('TkAgg')
+#import matplotlib.pyplot as plt
 
 from svhn_model import regression_head
 from svhn_data import load_svhn_data
 import time
 
 test_dataset, test_labels = load_svhn_data("test", "full")
-WEIGHTS_FILE = "regression.ckpt.data-00000-of-00001" #""regression.ckpt"
+WEIGHTS_FILE = "regression.ckpt.data-00000-of-00001"
 
 
 def prediction_to_string(pred_array):
@@ -25,25 +27,17 @@ def prediction_to_string(pred_array):
 
 
 def detect(img_path, saved_model_weights):
-    #image = Image.open(img_path)
-    #sample_img = tf.image.resize_images(image, (64, 64))
+    image = Image.open(img_path)
+    #sample_img = tf.reshape(image, [1, 64, 64, 3])
+    #sample_img = resizeimage.resize_cover(image, [1, 64, 64, 3])
+    sample_img = image.resize(64, 64, 3)
 
-    image = tf.image.decode_png(tf.read_file(img_path), channels=3)
-    image = tf.image.resize_images(image, [64, 64])
-    image = tf.image.convert_image_dtype(image, dtype=tf.float32)
-    sample_img = tf.reshape(image, [1, 64, 64, 3])
-    with tf.Session().as_default():
-        sample_img = sample_img.eval()
-
-#    plt.imshow(sample_img)
-#    plt.show()
+    plt.imshow(sample_img)
+    plt.show()
 
     pix = np.array(sample_img)
     norm_pix = (255-pix)*1.0/255.0
     exp = np.expand_dims(norm_pix, axis=0)
-
-    print(norm_pix.shape)
-    (1, 64, 64, 3)
 
     X = tf.placeholder(tf.float32, shape=(1, 64, 64, 3))
     [logits_1, logits_2, logits_3, logits_4, logits_5] = regression_head(X)
@@ -62,9 +56,7 @@ def detect(img_path, saved_model_weights):
         print "Model restored."
 
         print "Initialized"
-        #feed_dict = {X: exp}
-        feed_dict = {X: norm_pix}
-
+        feed_dict = {X: exp}
         start_time = time.time()
         predictions = session.run(best_prediction, feed_dict=feed_dict)
         pred = prediction_to_string(predictions[0])
