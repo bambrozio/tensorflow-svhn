@@ -11,16 +11,18 @@ from svhn_data import load_svhn_data
 from svhn_model import classification_head
 from datetime import datetime
 
-
 TENSORBOARD_SUMMARIES_DIR = 'logs/svhn_classifier_logs'
+TENSOR_BOARD_TRAIN_WRITER = 'logs/board_train_writer'
+TENSOR_BOARD_VALID_WRITER = 'logs/board_valid_writer'
+SAVE_FILE = "logs/svhn_classifier_logs/ckpt/classifier.ckpt"
+
 NUM_LABELS = 10
 IMG_ROWS = 32
 IMG_COLS = 32
 NUM_CHANNELS = 3
-SAVE_FILE = "classifier.ckpt"
 
 BATCH_SIZE = 256
-NUM_EPOCHS = 10 #128
+NUM_EPOCHS = 128
 
 # LEARING RATE HYPER PARAMS
 LEARN_RATE = 0.075
@@ -120,12 +122,12 @@ def train_classification(train_data, train_labels,
         merged = tf.summary.merge_all()
 
         saver = tf.train.Saver()
-        saver.save(sess, save_path=TENSORBOARD_SUMMARIES_DIR + '/train', global_step=global_step)
-        train_writer = tf.summary.FileWriter('logs/board_train_writer')  # create writer
+        saver.save(sess, save_path=TENSOR_BOARD_TRAIN_WRITER, global_step=global_step)
+        train_writer = tf.summary.FileWriter(TENSOR_BOARD_TRAIN_WRITER)  # create writer
         train_writer.add_graph(sess.graph)
 
-        saver.save(sess, save_path=TENSORBOARD_SUMMARIES_DIR + '/validation', global_step=global_step)
-        valid_writer = tf.summary.FileWriter('logs/board_valid_writer')  # create writer
+        saver.save(sess, save_path=TENSOR_BOARD_VALID_WRITER, global_step=global_step)
+        valid_writer = tf.summary.FileWriter(TENSOR_BOARD_VALID_WRITER)  # create writer
         valid_writer.add_graph(sess.graph)
 
         run_options = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)

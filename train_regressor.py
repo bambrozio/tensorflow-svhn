@@ -18,6 +18,10 @@ BATCH_SIZE = 32
 NUM_EPOCHS = 128
 TENSORBOARD_SUMMARIES_DIR = 'logs/svhn_regression_logs'
 
+TENSOR_BOARD_TRAIN_WRITER = 'logs/board_train_writer'
+TENSOR_BOARD_VALID_WRITER = 'logs/board_valid_writer'
+SAVE_FILE = "logs/svhn_classifier_logs/ckpt/classifier.ckpt"
+
 # Image Settings
 IMG_HEIGHT = 64
 IMG_WIDTH = 64
@@ -99,7 +103,7 @@ def train_regressor(train_data, train_labels, valid_data, valid_labels,
             saver.restore(sess, saved_weights_path)
         print("Model restored.")
 
-        reader = tf.train.NewCheckpointReader("classifier.ckpt")
+        reader = tf.train.NewCheckpointReader(SAVE_FILE)
         reader.get_variable_to_shape_map()
 
         # Run all the initializers to prepare the trainable parameters.
@@ -121,12 +125,10 @@ def train_regressor(train_data, train_labels, valid_data, valid_labels,
         # Prepare vairables for the tensorboard
         merged = tf.summary.merge_all()
 
-        # train_writer = tf.train.SummaryWriter(TENSORBOARD_SUMMARIES_DIR + '/train', sess.graph)
-        train_writer = tf.summary.FileWriter('logs/board_reg_train_writer')  # create writer
+        train_writer = tf.summary.FileWriter(TENSOR_BOARD_TRAIN_WRITER)  # create writer
         train_writer.add_graph(sess.graph)
 
-        # valid_writer = tf.train.SummaryWriter(TENSORBOARD_SUMMARIES_DIR + '/validation')
-        valid_writer = tf.summary.FileWriter('logs/board_reg_valid_writer')  # create writer
+        valid_writer = tf.summary.FileWriter(TENSOR_BOARD_VALID_WRITER)  # create writer
         valid_writer.add_graph(sess.graph)
 
         run_options = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
@@ -135,12 +137,12 @@ def train_regressor(train_data, train_labels, valid_data, valid_labels,
         ###
 
         saver = tf.train.Saver()
-        saver.save(sess, save_path=TENSORBOARD_SUMMARIES_DIR + '/train', global_step=global_step)
-        train_writer = tf.summary.FileWriter('logs/board_train_writer')  # create writer
+        saver.save(sess, save_path=TENSOR_BOARD_TRAIN_WRITER, global_step=global_step)
+        train_writer = tf.summary.FileWriter(TENSOR_BOARD_TRAIN_WRITER)  # create writer
         train_writer.add_graph(sess.graph)
 
-        saver.save(sess, save_path=TENSORBOARD_SUMMARIES_DIR + '/validation', global_step=global_step)
-        valid_writer = tf.summary.FileWriter('logs/board_valid_writer')  # create writer
+        saver.save(sess, save_path=TENSOR_BOARD_VALID_WRITER, global_step=global_step)
+        valid_writer = tf.summary.FileWriter(TENSOR_BOARD_VALID_WRITER)  # create writer
         valid_writer.add_graph(sess.graph)
 
         run_options = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
