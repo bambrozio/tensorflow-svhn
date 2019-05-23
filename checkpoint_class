@@ -1,0 +1,4 @@
+model_checkpoint_path: "classifier.ckpt"
+all_model_checkpoint_paths: "logs/board_train_writer-0"
+all_model_checkpoint_paths: "logs/board_valid_writer-0"
+all_model_checkpoint_paths: "classifier.ckpt"

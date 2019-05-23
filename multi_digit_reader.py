@@ -3,7 +3,7 @@ import os
 import numpy as np
 import tensorflow as tf
 import PIL.Image as Image
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 
 from svhn_model import regression_head
