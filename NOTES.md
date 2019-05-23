@@ -867,6 +867,29 @@ total 9128
 
 ############
 
+(env) Brunos-MBP:tensorflow-svhn bambrozi$ python train_regressor.py 
+WARNING:tensorflow:From /Users/bambrozi/workspace/github.com/bambrozio/tensorflow-svhn/env/lib/python2.7/site-packages/tensorflow/python/framework/op_def_library.py:263: colocate_with (from tensorflow.python.framework.ops) is dep
+recated and will be removed in a future version.
+Instructions for updating:
+Colocations handled automatically by placer.
+Starting without Saved Weights.
+TrainData (30061, 64, 64, 3)
+Valid Data (3341, 64, 64, 3)
+Test Data (13068, 64, 64, 3)
+2019-05-23 05:46:12.406726: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+WARNING:tensorflow:From /Users/bambrozi/workspace/github.com/bambrozio/tensorflow-svhn/env/lib/python2.7/site-packages/tensorflow/python/util/tf_should_use.py:193: initialize_all_variables (from tensorflow.python.ops.variables) i
+s deprecated and will be removed after 2017-03-02.
+Instructions for updating:
+Use `tf.global_variables_initializer` instead.
+Model restored.
+Validation Accuracy: 0.59
+Training Set Accuracy: 0.43
+Adding run metadata for 0
+2019-05-23 05:46:38.317248: step 100, loss = 5.81  learning rate = 0.07  (1.2 examples/sec; 25.665 sec/batch)
+Minibatch accuracy2: 0.62
+2019-05-23 05:47:02.531962: step 200, loss = 6.15  learning rate = 0.07  (1.3 examples/sec; 23.973 sec/batch)
+Minibatch accuracy2: 0.61
+
 
 ############
 
