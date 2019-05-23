@@ -819,6 +819,55 @@ Mini-Batch Accuracy: 1.00%
 Model saved in file: logs/svhn_classifier_logs/ckpt/classifier.ckpt
 Test Accuracy: 0.91797%
 
+(env) Brunos-MBP:tensorflow-svhn bambrozi$ pwd
+/Users/bambrozi/workspace/github.com/bambrozio/tensorflow-svhn
+(env) Brunos-MBP:tensorflow-svhn bambrozi$ ls -lh
+total 280
+-rw-r--r--   1 bambrozi  staff    59K 23 May 05:11 NOTES.md
+-rwxr-xr-x   1 bambrozi  staff   2.7K 12 May 22:04 README.md
+drwxr-xr-x   4 bambrozi  staff   128B 12 May 18:17 data
+-rw-r--r--   1 bambrozi  staff   2.1K 12 May 22:20 digit_struct.py
+-rw-r--r--   1 bambrozi  staff   3.0K 12 May 22:22 digit_struct.pyc
+drwxr-xr-x   6 bambrozi  staff   192B 23 May 00:47 env
+drwxr-xr-x  12 bambrozi  staff   384B 23 May 00:58 logs
+-rw-r--r--   1 bambrozi  staff   2.7K 22 May 23:48 multi_digit_reader.py
+-rw-r--r--   1 bambrozi  staff   9.9K 12 May 22:20 svhn_data.py
+-rw-r--r--   1 bambrozi  staff    11K 12 May 22:22 svhn_data.pyc
+-rw-r--r--   1 bambrozi  staff   6.1K 12 May 22:20 svhn_model.py
+-rw-r--r--   1 bambrozi  staff   5.1K 12 May 22:22 svhn_model.pyc
+-rw-r--r--   1 bambrozi  staff   8.6K 23 May 00:15 train_classifier.py
+-rw-r--r--   1 bambrozi  staff   9.7K 23 May 00:22 train_regressor.py
+(env) Brunos-MBP:tensorflow-svhn bambrozi$ tree logs
+logs
+├── board_train_writer
+│   └── events.out.tfevents.1558569528.Brunos-MBP
+├── board_train_writer-0.data-00000-of-00001
+├── board_train_writer-0.index
+├── board_train_writer-0.meta
+├── board_valid_writer
+│   └── events.out.tfevents.1558569528.Brunos-MBP
+├── board_valid_writer-0.data-00000-of-00001
+├── board_valid_writer-0.index
+├── board_valid_writer-0.meta
+├── checkpoint
+└── svhn_classifier_logs
+    └── ckpt
+        ├── checkpoint
+        ├── classifier.ckpt.data-00000-of-00001
+        ├── classifier.ckpt.index
+        └── classifier.ckpt.meta
+
+4 directories, 13 files
+(env) Brunos-MBP:tensorflow-svhn bambrozi$ ls -lh logs/svhn_classifier_logs/ckpt/
+total 9128
+-rw-r--r--  1 bambrozi  staff   201B 23 May 03:45 checkpoint
+-rw-r--r--  1 bambrozi  staff   4.3M 23 May 03:45 classifier.ckpt.data-00000-of-00001
+-rw-r--r--  1 bambrozi  staff   1.1K 23 May 03:45 classifier.ckpt.index
+-rw-r--r--  1 bambrozi  staff   113K 23 May 03:45 classifier.ckpt.meta
+
+############
+
+
 ############
 
 Classifier (BATCH_SIZE = 256 and NUM_EPOCHS = 10)
